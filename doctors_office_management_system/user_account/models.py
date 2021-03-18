@@ -7,6 +7,13 @@ class all_users(models.Model):
     password = forms.CharField(max_length=32, widget=forms.PasswordInput)
     role = models.IntegerField(null=False, blank=False)
 
+class normal_user(models.Model):
+    user_id = models.ForeignKey(all_users, on_delete=models.CASCADE)
+    fname = models.CharField(max_length=50,null=False, blank=False)
+    lname = models.CharField(max_length=50,null=False, blank=False)
+    phone = PhoneNumberField(null=False, blank=False, unique=True)
+    address = models.CharField(max_length=300,null=False, blank=False)
+
 
 class comment(models.Model):
     user_id = models.IntegerField(null=False, blank=False)
