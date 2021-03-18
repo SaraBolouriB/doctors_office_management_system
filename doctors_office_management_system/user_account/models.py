@@ -18,7 +18,7 @@ class appointment(models.Model):
         unique_together = ['user_id', 'doctor_id']
 
 class working_time(models.Model):
-    doctor_id = models.IntegerField(unique=True, ll=False, blank=False)
+    doctor_id = models.IntegerField(unique=True, null=False, blank=False)
     day = models.DateField()
     start_time = models.Charfield()
     end_time = models.Charfield()
