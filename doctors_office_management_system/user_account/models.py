@@ -16,3 +16,7 @@ class working_time(models.Model):
     day = models.DateField()
     start_time = models.Charfield()
     end_time = models.Charfield()
+
+class favorite(models.Model):
+    user_id = models.IntegerField()
+    doctor_id = models.IntegerField()
