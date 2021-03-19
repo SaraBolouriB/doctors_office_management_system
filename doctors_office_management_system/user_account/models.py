@@ -26,7 +26,7 @@ class doctor(models.Model):
 class comment(models.Model):
     user_id = models.ForeignKey(normal_user, on_delete=models.CASCADE)
     doctor_id = models.ForeignKey(doctor, on_delete=models.CASCADE)
-    comment = models.Textfield(max_length=200, blank=False, null=False)
+    comment = models.TextField(max_length=200, blank=False, null=False)
     created_on = models.DateTimeField(auto_now_add=False, blank=False, null=False)
 
 class appointment(models.Model):
@@ -38,8 +38,8 @@ class appointment(models.Model):
 class working_time(models.Model):
     doctor_id = models.ForeignKey(doctor, on_delete=models.CASCADE)
     day = models.DateField(auto_now_add=False)
-    start_time = models.Charfield(max_length=2, blank=False, null=False)
-    end_time = models.Charfield(max_length=2, blank=False, null=False)
+    start_time = models.CharField(max_length=2, blank=False, null=False)
+    end_time = models.CharField(max_length=2, blank=False, null=False)
 
 class favorite(models.Model):
     user_id = models.ForeignKey(normal_user, on_delete=models.CASCADE)
