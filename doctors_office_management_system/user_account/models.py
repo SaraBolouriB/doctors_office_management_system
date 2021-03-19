@@ -1,4 +1,27 @@
 from django.db import models
+from django import forms
+from phonenumber_field.modelfields import PhoneNumberField
+
+class all_users(models.Model):
+    username = models.CharField(max_length=50,null=False, blank=False, primary_key=True)
+    password = forms.CharField(max_length=32, widget=forms.PasswordInput)
+    role = models.IntegerField(null=False, blank=False)
+
+class normal_user(models.Model):
+    user_id = models.ForeignKey(all_users, on_delete=models.CASCADE)
+    fname = models.CharField(max_length=50,null=False, blank=False)
+    lname = models.CharField(max_length=50,null=False, blank=False)
+    phone = PhoneNumberField(null=False, blank=False, unique=True)
+    address = models.CharField(max_length=300,null=False, blank=False)
+
+class doctor(models.Model):
+    user_id = models.ForeignKey(all_users, on_delete=models.CASCADE)
+    fname = models.CharField(max_length=50,null=False, blank=False)
+    lname = models.CharField(max_length=50,null=False, blank=False)
+    phone = PhoneNumberField(null=False, blank=False)
+    address = models.CharField(max_length=500,null=False, blank=False)
+    education = models.CharField(max_length=300,null=False, blank=False)
+    dNumber = models.IntegerField(null=False, blank=False, unique = True)
 
 class comment(models.Model):
     user_id = models.ForeignKey('normal_user', on_delete=models.CASCADE)
