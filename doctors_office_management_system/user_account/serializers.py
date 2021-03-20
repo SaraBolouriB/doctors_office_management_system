@@ -30,4 +30,13 @@ class appointmentSerializer(serializers.ModelSerializer):
         model = appointment
         fields = '__all__'
 
-
+class workingTimeSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = working_time
+        fields = '__all__'
+class favoriteSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = favorite
+        fields = '__all__'
