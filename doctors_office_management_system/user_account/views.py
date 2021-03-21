@@ -58,3 +58,16 @@ def search(request):
         
         else:
             return Response("Wrong input", status=INVALID_DATA)
+
+@api_view(['POST'])
+def set_appointment(request):
+    
+    if request.method == 'POST':
+        appointment = request.data
+        appointmentObj = appointmentSerializer(data=appointment)
+
+        if appointmentObj.is_valid():
+            appointmentObj.save()
+            return Response("Done", status=CREATED)
+        else:
+            return Response(appointmentObj.errors, status=INVALID_DATA)
