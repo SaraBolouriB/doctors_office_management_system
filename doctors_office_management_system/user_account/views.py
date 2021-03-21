@@ -1,3 +1,23 @@
-from django.shortcuts import render
+from user_account.models import *
+from user_account.serializers import *
+from rest_framework.decorators import api_view
+from rest_framework import status
+from rest_framework.response import Response
 
-# Create your views here.
+INVALID_DATA = status.HTTP_400_BAD_REQUEST
+CREATED = status.HTTP_201_CREATED
+
+@api_view(['POST'])
+def following(request):
+
+    if request.method == 'POST':
+        data = request.data
+        favoriteObj = favoriteSerializer(data=data)
+
+        if favoriteObj.is_valid():
+            favoriteObj.save()
+            return Response("Done", status=CREATED)
+        else:
+            return Response(favoriteObj.errors, status=INVALID_DATA)
+
+        
