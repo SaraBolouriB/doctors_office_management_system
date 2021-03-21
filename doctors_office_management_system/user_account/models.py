@@ -27,7 +27,7 @@ class comment(models.Model):
     user_id = models.ForeignKey(normal_user, on_delete=models.CASCADE)
     doctor_id = models.ForeignKey(doctor, on_delete=models.CASCADE)
     comment = models.TextField(max_length=200, blank=False, null=False)
-    created_on = models.DateTimeField(auto_now_add=False, blank=False, null=False)
+    created_on = models.DateTimeField(auto_now_add=True)
 
 class appointment(models.Model):
     user_id = models.ForeignKey(normal_user, on_delete=models.CASCADE)
