@@ -2,8 +2,8 @@ from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 
 class all_users(models.Model):
-    username = models.CharField(max_length=50,null=False, blank=False, primary_key=True)
-    password = models.CharField(max_length=32)
+    username = models.CharField(max_length=50, null=False, blank=False, primary_key=True)
+    password = models.CharField(max_length=32, null=False, blank=False)
     role = models.IntegerField(null=False, blank=False)
 
 class normal_user(models.Model):

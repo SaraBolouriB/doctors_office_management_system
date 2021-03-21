@@ -7,4 +7,5 @@ app_name = 'user_account'
 urlpatterns = [
     path('follow/', views.following),
     path('comment/', views.comment),
+    path('search/', views.search)
 ]
