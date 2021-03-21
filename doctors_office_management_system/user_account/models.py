@@ -8,8 +8,7 @@ class all_users(models.Model):
 
 class normal_user(models.Model):
     user_id = models.ForeignKey(all_users, on_delete=models.CASCADE)
-    fname = models.CharField(max_length=50,null=False, blank=False)
-    lname = models.CharField(max_length=50,null=False, blank=False)
+    name = models.CharField(max_length=200,null=False, blank=False)
     phone = PhoneNumberField(null=False, blank=False, unique=True)
     address = models.CharField(max_length=300,null=False, blank=False)
 
