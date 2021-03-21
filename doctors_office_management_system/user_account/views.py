@@ -20,4 +20,16 @@ def following(request):
         else:
             return Response(favoriteObj.errors, status=INVALID_DATA)
 
+@api_view(['POST'])
+def comment(request):
+
+    if request.method == 'POST':
+        data = request.data
+        commentObj = commentSerializer(data=data)
+
+        if commentObj.is_valid():
+            commentObj.save()
+            return Response("Done", status=CREATED)
+        else:
+            return Response(commentObj.errors, status=INVALID_DATA)
         
