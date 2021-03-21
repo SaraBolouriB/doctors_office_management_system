@@ -15,8 +15,7 @@ class normal_user(models.Model):
 
 class doctor(models.Model):
     user_id = models.ForeignKey(all_users, on_delete=models.CASCADE)
-    fname = models.CharField(max_length=50,null=False, blank=False)
-    lname = models.CharField(max_length=50,null=False, blank=False)
+    name = models.CharField(max_length=200,null=False, blank=False)
     phone = PhoneNumberField(null=False, blank=False)
     address = models.CharField(max_length=500,null=False, blank=False)
     education = models.CharField(max_length=300,null=False, blank=False)
