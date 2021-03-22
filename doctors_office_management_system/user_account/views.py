@@ -81,10 +81,7 @@ def show_times(request):
         doctorID = request.data.pop('doctor_id')
 
         doctor_times = working_time.objects.filter(day=day, doctor_id=doctorID).all()
-        _doctor_times = workingTimeSerializer(doctor_times, many=True)
-
         appointment_times = appointment.objects.filter(date=date, doctor_id=doctorID).all()
-        _appointment_times = appointmentSerializer(appointment_times, many=True)
 
         suggestion_times = []
 
