@@ -73,18 +73,13 @@ def set_appointment(request):
             return Response(appointmentObj.errors, status=INVALID_DATA)
 
 @api_view(['GET'])
-def show_times(request):
+def show_times(request, day, date, doctorID):
 
     if request.method == 'GET':
-        day = request.data.pop('day')
-        date = request.data.pop('date')
-        doctorID = request.data.pop('doctor_id')
-
         doctor_times = working_time.objects.filter(day=day, doctor_id=doctorID).all()
         appointment_times = appointment.objects.filter(date=date, doctor_id=doctorID).all()
 
         suggestion_times = []
-
         for dt in doctor_times:
             dtime = dt.start_time
             for at in appointment_times:

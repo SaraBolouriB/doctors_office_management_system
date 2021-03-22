@@ -9,5 +9,5 @@ urlpatterns = [
     path('comment/', views.comment),
     path('search/', views.search),
     path('setAppointment/', views.set_appointment),
-    path('showTimes/', views.show_times)
+    path('showTimes/<str:day>/<str:date>/<int:doctorID>/', views.show_times)
 ]
