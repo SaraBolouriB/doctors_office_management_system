@@ -36,28 +36,24 @@ def comment(request):
             return Response(commentObj.errors, status=INVALID_DATA)
         
 @api_view(['GET'])
-def search(request):
+def search(request, keyword):
 
     if request.method == "GET":
-        keyword = request.data.pop("keyword")
 
-        if type(keyword) == int:
+        if keyword.isdigit():
             try:
-                output = doctor.objects.get(dNumber=keyword)
+                output = doctor.objects.get(dNumber=int(keyword))
                 _output = doctorSerializer(output)
                 return Response(_output.data, status=SUCCEEDED_REQUEST)
             except ObjectDoesNotExist:
                 return Response("Not Found", status=SUCCEEDED_REQUEST)
                 
-        elif type(keyword) == str:
+        else:
             output = doctor.objects.filter(name__contains=keyword).all()
             _output = doctorSerializer(output, many=True)
             if not _output.data:
                 return Response("Not Found", status=SUCCEEDED_REQUEST)
             return Response(_output.data, status=SUCCEEDED_REQUEST)
-        
-        else:
-            return Response("Wrong input", status=INVALID_DATA)
 
 @api_view(['POST'])
 def set_appointment(request):
