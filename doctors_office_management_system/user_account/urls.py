@@ -9,4 +9,5 @@ urlpatterns = [
     path('comment/', views.comment),
     path('search/', views.search),
     path('setAppointment/', views.set_appointment),
+    path('showTimes/', views.show_times)
 ]
