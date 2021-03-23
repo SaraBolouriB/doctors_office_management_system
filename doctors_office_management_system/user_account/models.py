@@ -1,5 +1,7 @@
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
+from django.utils.translation import gettext_lazy as _
+from doctors_office_management_system import settings
 
 class all_users(models.Model):
     username = models.CharField(max_length=50, null=False, blank=False, primary_key=True)
@@ -34,8 +36,17 @@ class appointment(models.Model):
     time = models.TimeField(auto_now_add=False)
 
 class working_time(models.Model):
+    class Day(models.TextChoices):
+        SATURDAY = 'Sat.', _('Saturday')
+        SUNDAY = 'Sun.', _('Sunday')
+        MONDAY = 'Mon.', _('Monday')
+        TUESDAY = 'Tue.', _('Tuesday')
+        WEDNESDAY = 'Wed.', _('Wednesday')
+        THURSDAY = 'Thu.', _('Thursday')
+        FRIDAY = 'Fri.', _('Friday')
+
     doctor_id = models.ForeignKey(doctor, on_delete=models.CASCADE)
-    day = models.CharField(max_length=10, blank=False, null=False)
+    day = models.CharField(max_length=4, choices=Day.choices, blank=False, null=False)
     start_time = models.TimeField(auto_now_add=False)
     end_time = models.TimeField(auto_now_add=False)
 

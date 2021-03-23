@@ -32,10 +32,12 @@ class appointmentSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class workingTimeSerializer(serializers.ModelSerializer):
-    
+    start_time = serializers.DateTimeField(format="%H:%M:%S")
+    end_time = serializers.DateTimeField(format="%H:%M:%S")
     class Meta:
         model = working_time
         fields = '__all__'
+        
 class favoriteSerializer(serializers.ModelSerializer):
     
     class Meta:

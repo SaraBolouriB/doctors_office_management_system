@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.response import Response
 from django.core.exceptions import ObjectDoesNotExist
-from datetime import datetime, time
+from datetime import datetime
 from django.db.models import Q
 
 
@@ -63,10 +63,9 @@ def set_appointment(request):
 
     if request.method == 'POST':
         appointment = request.data
-        appointment['time'] = datetime.strptime(appointment['time'], '%H:%M').time()
         day = datetime.strptime(appointment['date'], "%Y-%m-%d").date().strftime("%A")
-        print(type(appointment['time']))
-        if working_time.objects.filter(doctor_id=appointment['doctor_id'], day=day, start_time=appointment["time"]).exists():
+
+        if working_time.objects.filter(doctor_id=appointment['doctor_id'], day=day, start_time__contains=appointment["time"]).exists():
             appointmentObj = appointmentSerializer(data=appointment)
 
             if appointmentObj.is_valid():
@@ -99,6 +98,8 @@ def show_times(request, date, doctorID):
             else:
                 flag = 0
         _suggestion_times = workingTimeSerializer(suggestion_times, many=True)
+        if _suggestion_times:
+            return Response("There is no time.", status=SUCCEEDED_REQUEST)
         return Response(_suggestion_times.data, status=SUCCEEDED_REQUEST)
 
 @api_view(['POST'])
