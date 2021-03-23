@@ -31,7 +31,7 @@ urlpatterns = [
     path('registerinfo/', views.register_userinfo),
     path('editinfo/user_id=<str:user_id>', views.edit_userinfo),
     path('doctorinfo/doctorid=<str:doctorid>/', views.doctorinfo),
-    path('getlist/',views.filter),
+    url(r'^getlist(?:/city=(?P<city>[a-zA-Z]+))?(?:/education=(?P<education>[a-zA-Z]+))?(?:/field=(?P<field>[a-zA-Z]+))?/$',views.filter),
     path('', schema_view.with_ui('swagger', cache_timeout=None), name='schema-swagger-ui'),
     path('redoc', schema_view.with_ui('redoc', cache_timeout=None), name='schema-redoc'),
 ]
