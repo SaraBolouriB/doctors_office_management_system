@@ -147,6 +147,9 @@ def doctorinfo(request, doctorid):
         try:
             output1 = doctor.objects.get(id=doctorid)
             _output1 = doctorSerializer(output1)
-            return Response(_output1.data, status=SUCCEEDED_REQUEST)
+            output2 = working_time.objects.filter(doctor_id=doctorid).all()
+            _output2 = workingTimeSerializer(output2 , many=True)
+            output = {'info': _output1.data , 'working_times': _output2.data}
+            return Response(output, status=SUCCEEDED_REQUEST)
         except ObjectDoesNotExist:
             return Response("Not Found", status=SUCCEEDED_REQUEST)
