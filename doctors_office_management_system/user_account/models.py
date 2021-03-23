@@ -18,6 +18,7 @@ class doctor(models.Model):
     phone = PhoneNumberField(null=False, blank=False)
     address = models.CharField(max_length=500,null=False, blank=False)
     education = models.CharField(max_length=300,null=False, blank=False)
+    field = models.CharField(max_length=300,null=False, blank=False)
     dNumber = models.IntegerField(null=False, blank=False, unique = True)
 
 class comment(models.Model):
