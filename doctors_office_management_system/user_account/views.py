@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.response import Response
 from django.core.exceptions import ObjectDoesNotExist
-
+from datetime import datetime, time
 from django.db.models import Q
 
 
@@ -60,35 +60,44 @@ def search(request, keyword):
 
 @api_view(['POST'])
 def set_appointment(request):
-    
+
     if request.method == 'POST':
         appointment = request.data
-        appointmentObj = appointmentSerializer(data=appointment)
+        appointment['time'] = datetime.strptime(appointment['time'], '%H:%M').time()
+        day = datetime.strptime(appointment['date'], "%Y-%m-%d").date().strftime("%A")
+        print(type(appointment['time']))
+        if working_time.objects.filter(doctor_id=appointment['doctor_id'], day=day, start_time=appointment["time"]).exists():
+            appointmentObj = appointmentSerializer(data=appointment)
 
-        if appointmentObj.is_valid():
-            appointmentObj.save()
-            return Response("Done", status=CREATED)
+            if appointmentObj.is_valid():
+                appointmentObj.save()
+                return Response("Done", status=CREATED)
+            else:
+                return Response(appointmentObj.errors, status=INVALID_DATA)
         else:
-            return Response(appointmentObj.errors, status=INVALID_DATA)
+            return Response("This time is not correct", status=INVALID_DATA)
 
 @api_view(['GET'])
-def show_times(request, day, date, doctorID):
+def show_times(request, date, doctorID):
 
     if request.method == 'GET':
+        day = datetime.strptime(date, "%Y-%m-%d").date().strftime("%A")
         doctor_times = working_time.objects.filter(day=day, doctor_id=doctorID).all()
         appointment_times = appointment.objects.filter(date=date, doctor_id=doctorID).all()
 
         suggestion_times = []
-        if appointment_times:
-            for dt in doctor_times:
-                dtime = dt.start_time
-                for at in appointment_times:
-                    atime = at.time
-                    if dtime != atime:
-                        suggestion_times.append(dt)
-        else:
-            for dt in doctor_times:
+        flag = 0
+        for dt in doctor_times:
+            dtime = dt.start_time
+            for at in appointment_times:   
+                atime = at.time
+                if dtime == atime:
+                    flag = 1
+                    break
+            if flag != 1:
                 suggestion_times.append(dt)
+            else:
+                flag = 0
         _suggestion_times = workingTimeSerializer(suggestion_times, many=True)
         return Response(_suggestion_times.data, status=SUCCEEDED_REQUEST)
 
@@ -144,6 +153,7 @@ def filter(request,city='',education='',field=''):
             return Response(_output.data, status=SUCCEEDED_REQUEST)
         except ObjectDoesNotExist:
             return Response("Not Found", status=SUCCEEDED_REQUEST)
+
 @api_view(['GET'])
 def doctorinfo(request, doctorid):
 
