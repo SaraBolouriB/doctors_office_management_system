@@ -17,7 +17,8 @@ class doctorSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = doctor
-        fields = '__all__'
+        fields =  '__all__'
+        
 class commentSerializer(serializers.ModelSerializer):
     
     class Meta:
