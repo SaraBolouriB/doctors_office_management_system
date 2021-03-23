@@ -124,7 +124,6 @@ def filter(request,city='',education='',field=''):
     city = request.GET.get('city')
     education = request.GET.get('education')
     field = request.GET.get('field')
-    # print(city,education,field)
     if request.method == "GET":
         try:
             output = doctor.objects.all()
