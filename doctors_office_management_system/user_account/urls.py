@@ -14,5 +14,5 @@ urlpatterns = [
     path('registerinfo/', views.register_userinfo),
     path('editinfo/user_id=<str:user_id>', views.edit_userinfo),
     path('doctorinfo/doctorid=<str:doctorid>/', views.doctorinfo),
-    url(r'^getlist/$',views.filter)
+    path('getlist/',views.filter)
 ]
