@@ -77,16 +77,21 @@ def show_times(request, day, date, doctorID):
     if request.method == 'GET':
         doctor_times = working_time.objects.filter(day=day, doctor_id=doctorID).all()
         appointment_times = appointment.objects.filter(date=date, doctor_id=doctorID).all()
-
+        test = workingTimeSerializer(doctor_times, many=True)
         suggestion_times = []
-        for dt in doctor_times:
-            dtime = dt.start_time
-            for at in appointment_times:
-                atime = at.time
-                if dtime != atime:
-                    suggestion_times.append(dtime)
-
-        return Response(suggestion_times, status=SUCCEEDED_REQUEST)
+        if appointment_times:
+            for dt in doctor_times:
+                dtime = dt.start_time
+                for at in appointment_times:
+                    atime = at.time
+                    if dtime != atime:
+                        test.pop(dt)
+                        suggestion_times.append(dt)
+        else:
+            for dt in doctor_times:
+                suggestion_times.append(dt)
+        _suggestion_times = workingTimeSerializer(suggestion_times, many=True)
+        return Response(_suggestion_times.data, status=SUCCEEDED_REQUEST)
 
 @api_view(['POST'])
 def register_userinfo(request):
