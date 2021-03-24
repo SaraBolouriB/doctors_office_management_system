@@ -115,17 +115,17 @@ def register_userinfo(request):
         else:
             return Response(infoObj.errors, status=INVALID_DATA)
 
-@api_view(['PUT'])
+@api_view(['PATCH'])
 def edit_userinfo(request , user_id):
 
-    if request.method == 'PUT':
+    if request.method == 'PATCH':
         try:
             found = normal_user.objects.get(user_id=user_id)
         except found.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
         data = request.data
-        infoObj = normalUserSerializer(found, data=data)
+        infoObj = normalUserSerializer(found, data=data , partial=True)
 
         if infoObj.is_valid():
             infoObj.save()
