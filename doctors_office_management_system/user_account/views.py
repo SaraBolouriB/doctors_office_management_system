@@ -62,17 +62,26 @@ def search(request, keyword):
 def set_appointment(request):
 
     if request.method == 'POST':
-        appointment = request.data
-        day = datetime.strptime(appointment['date'], "%Y-%m-%d").date().strftime("%A")
+        appointmentData = request.data
+        day = datetime.strptime(appointmentData['date'], "%Y-%m-%d").date().strftime("%A")
 
-        if working_time.objects.filter(doctor_id=appointment['doctor_id'], day=day, start_time__contains=appointment["time"]).exists():
-            appointmentObj = appointmentSerializer(data=appointment)
+        if working_time.objects.filter(doctor_id=appointmentData['doctor_id'],
+                                       day=day, 
+                                       start_time__contains=appointmentData["time"]).exists():
 
-            if appointmentObj.is_valid():
-                appointmentObj.save()
-                return Response("Done", status=CREATED)
+            if not appointment.objects.filter(doctor_id=appointmentData['doctor_id'], 
+                                              date__contains=appointmentData['date'],       
+                                              time__contains=appointmentData["time"]).exists():
+
+                appointmentObj = appointmentSerializer(data=appointmentData)
+
+                if appointmentObj.is_valid():
+                    appointmentObj.save()
+                    return Response("Reserved successfully", status=CREATED)
+                else:
+                    return Response(appointmentObj.errors, status=INVALID_DATA)
             else:
-                return Response(appointmentObj.errors, status=INVALID_DATA)
+                return Response("This time was reserved", status=INVALID_DATA)
         else:
             return Response("This time is not correct", status=INVALID_DATA)
 
@@ -83,7 +92,6 @@ def show_times(request, date, doctorID):
         day = datetime.strptime(date, "%Y-%m-%d").date().strftime("%A")
         doctor_times = working_time.objects.filter(day=day, doctor_id=doctorID).all()
         appointment_times = appointment.objects.filter(date=date, doctor_id=doctorID).all()
-
         suggestion_times = []
         flag = 0
         for dt in doctor_times:
@@ -98,7 +106,7 @@ def show_times(request, date, doctorID):
             else:
                 flag = 0
         _suggestion_times = workingTimeSerializer(suggestion_times, many=True)
-        if _suggestion_times:
+        if _suggestion_times is None:
             return Response("There is no time.", status=SUCCEEDED_REQUEST)
         return Response(_suggestion_times.data, status=SUCCEEDED_REQUEST)
 
