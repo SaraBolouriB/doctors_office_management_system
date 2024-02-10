@@ -8,10 +8,14 @@ Advancements in technology and communication have led to a wide range of tasks a
 </p>
 
 ## First phase
+<p align="justify">
 In this phase, we have implemented services (patient and authentication) by using REST APIs, and Django frameworks. In the following, we delve into more details.
+<p/>
 
 ## Authentication Service
+<p align="justify">
 This service requires defining users and managing their access to different parts. This service is responsible for registration, authentication, and controlling user access. Users in this system can have three different roles as *doctor*, *regular user*, and *guest user*. To register as a doctor, either a medical license number or a phone number could be used. The code below shows the POST API for registering users.
+<p/>
 <div align="center">
 
 ![Screenshot from 2024-02-09 20-45-24](https://github.com/SaraBolouriB/doctors_office_management_system/assets/45979215/3646638e-7862-4623-bc92-d95d97b35992)
@@ -22,7 +26,7 @@ This service requires defining users and managing their access to different part
 This service is designed as a panel for regular users. With this service, regular users can view a list of doctors in a specific city, filter the list by city, specialization, and education degree, schedule appointments for specific times (subject to the doctor's availability), and search for a doctor by name or medical license number.
 As mentioned before, there are three different roles as *doctor*, *regular user*, and *guest user*, and each of them has their own accessibility. In the following, we delve into more details:
 </p>
-
+  
 - ### Guest user
 A user who has not registered or logged in is considered a guest user. This type of user can register and choose to be identified as either a doctor or a regular user. They should choose their role during registration. Their accessibilities are listed below:
 1. Register and log in to the system
@@ -47,6 +51,7 @@ After registering as regular users and logging in, users have the following acce
 This system is designed for doctors to schedule appointments and adjust their attendance schedules. 
 <hr />
 
+
 ## Second phase
 <p align="justify">
 We use the Docker Engine to create a Docker image for the patient service and execute it within a container. Images for other services are developed by different groups and shared with us.  To create the docker image, a DockerFile is generated, as illustrated in the image below.
@@ -64,4 +69,6 @@ In this phase, all services are executed simultaneously through two different ma
   
 ![image](https://github.com/SaraBolouriB/doctors_office_management_system/assets/45979215/ad1bad18-fba0-4d35-8a81-605b41acbd79)
 </div>
+<p align="justify">
 To facilitate the system's operation on two machines, we initially create virtual machines (e.g., using VirtualBox). Subsequently, with Docker Swarm, we establish a leader node and two worker nodes, and then set up a bridge network to enable communication between the machines. Ultimately, leveraging these nodes, our system is successfully operational.
+<p/>
